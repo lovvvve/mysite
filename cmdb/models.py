@@ -65,4 +65,18 @@ class Host(models.Model):
     hostname = models.CharField(max_length=30)
 
     def __unicode__(self):
-        return u'%s: %s' % (self.appname, self.private_ip)
+        return u'{"appname": %s, "private_ip": %s, "hostname": %s }' % (self.appname, self.private_ip, self.hostname)
+
+    def toJSON(self):
+        fields=[]
+        for field in self._meta.fields:
+            fields.append(field.name)
+
+        d={}
+        for attr in fields:
+            d[attr] = getattr(self, attr)
+
+        import json
+        print "-----------------"
+        return json.dumps(d)
+        print "================="

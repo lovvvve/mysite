@@ -31,7 +31,10 @@ urlpatterns += patterns('books.views',
 )
 
 urlpatterns += patterns('cmdb.views',
-    url(r'login$', 'login')
+    url(r'login$', 'login'),
+    url(r'ip$', 'IpList'),
+    url(r'host$', 'HostList'),
+    url(r'vm', 'VmList'),
     )
 
 # if settings.DEBUG:
