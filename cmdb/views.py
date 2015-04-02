@@ -4,6 +4,10 @@ from django.shortcuts import render_to_response
 from cmdb import models
 import json
 from django.http import HttpResponse, JsonResponse
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
+
+
 
 # Create your views here.
 
@@ -22,9 +26,12 @@ def IpList(request):
 
 def HostList(request):
     # Hosts = models.Host.objects.all().values()
-    Hosts = models.Host.objects.all().values()
-    Hosts = list(Hosts)
-    jsondata = {'code': 200, 'total': len(Hosts), 'result': Hosts}
+    # Hosts = models.Host.objects.all().values()
+    # Hosts = list(Hosts)
+    jsondata = serializers.serialize('json', models.Host.objects.all())
+    jsondata = json.loads(jsondata)
+    # jsondata = {'code': 200, 'total': len(Hosts), 'result': Hosts}
+    # jsondata = json.dumps(jsondata, cls=DjangoJSONEncoder)
     return JsonResponse(jsondata, safe=False)
     # return HttpResponse(json.dumps(list(Hosts)), content_type='application/json')
 
